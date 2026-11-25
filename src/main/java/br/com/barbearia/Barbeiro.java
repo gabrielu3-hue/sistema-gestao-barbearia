@@ -30,9 +30,7 @@ public class Barbeiro {
     }
 
     public void setNome(String nome) {
-        if (nome == null || nome.isBlank()) {
-            throw new IllegalArgumentException("O nome não pode ser vazio.");
-        }
+        validarTexto(nome, "O nome");
         this.nome = nome;
     }
 
@@ -41,9 +39,7 @@ public class Barbeiro {
     }
 
     public void setTelefone(String telefone) {
-        if (telefone == null || telefone.isBlank()) {
-            throw new IllegalArgumentException("O telefone não pode ser vazio.");
-        }
+        validarTexto(telefone, "O telefone");
         this.telefone = telefone;
     }
 
@@ -52,9 +48,13 @@ public class Barbeiro {
     }
 
     public void setEspecialidade(String especialidade) {
-        if (especialidade == null || especialidade.isBlank()) {
-            throw new IllegalArgumentException("A especialidade não pode ser vazia.");
-        }
+        validarTexto(especialidade, "A especialidade");
         this.especialidade = especialidade;
+    }
+
+    private void validarTexto(String valor, String campo) {
+        if (valor == null || valor.isBlank()) {
+            throw new IllegalArgumentException(campo + " não pode ser vazio.");
+        }
     }
 }
