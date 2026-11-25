@@ -1,3 +1,4 @@
+
 package br.com.barbearia;
 
 import java.util.ArrayList;
@@ -10,11 +11,23 @@ public class ClienteRepository {
 
     private final Map<Long, Cliente> clientes = new LinkedHashMap<>();
 
-    // CREATE - Cadastrar cliente
-    public void salvar(Cliente cliente) {
+    // Valida se o cliente é válido
+    private void validarCliente(Cliente cliente) {
         if (cliente == null) {
             throw new IllegalArgumentException("O cliente não pode ser nulo.");
         }
+    }
+
+    // Valida o ID informado
+    private void validarId(Long id) {
+        if (id == null || id <= 0) {
+            throw new IllegalArgumentException("O ID deve ser positivo.");
+        }
+    }
+
+    // CREATE - Cadastrar cliente
+    public void salvar(Cliente cliente) {
+        validarCliente(cliente);
 
         if (clientes.containsKey(cliente.getId())) {
             throw new IllegalArgumentException("Já existe um cliente com esse ID.");
@@ -30,18 +43,13 @@ public class ClienteRepository {
 
     // READ - Buscar cliente pelo ID
     public Optional<Cliente> buscarPorId(Long id) {
-        if (id == null || id <= 0) {
-            throw new IllegalArgumentException("O ID deve ser positivo.");
-        }
-
+        validarId(id);
         return Optional.ofNullable(clientes.get(id));
     }
 
     // UPDATE - Atualizar cliente
     public void atualizar(Cliente cliente) {
-        if (cliente == null) {
-            throw new IllegalArgumentException("O cliente não pode ser nulo.");
-        }
+        validarCliente(cliente);
 
         if (!clientes.containsKey(cliente.getId())) {
             throw new IllegalArgumentException("Cliente não encontrado.");
@@ -52,9 +60,7 @@ public class ClienteRepository {
 
     // DELETE - Excluir cliente
     public void excluir(Long id) {
-        if (id == null || id <= 0) {
-            throw new IllegalArgumentException("O ID deve ser positivo.");
-        }
+        validarId(id);
 
         if (!clientes.containsKey(id)) {
             throw new IllegalArgumentException("Cliente não encontrado.");
