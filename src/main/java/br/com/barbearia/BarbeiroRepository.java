@@ -9,14 +9,19 @@ public class BarbeiroRepository {
 
     private final Map<Long, Barbeiro> barbeiros = new LinkedHashMap<>();
 
-    // Valida o barbeiro informado
     private void validarBarbeiro(Barbeiro barbeiro) {
         if (barbeiro == null) {
             throw new IllegalArgumentException("O barbeiro não pode ser nulo.");
         }
     }
 
-    // CREATE - Cadastrar barbeiro
+    private void validarId(Long id) {
+        if (id == null || id <= 0) {
+            throw new IllegalArgumentException("O ID deve ser positivo.");
+        }
+    }
+
+    // CREATE
     public void salvar(Barbeiro barbeiro) {
         validarBarbeiro(barbeiro);
 
@@ -29,22 +34,19 @@ public class BarbeiroRepository {
         barbeiros.put(barbeiro.getId(), barbeiro);
     }
 
-    // READ - Listar todos os barbeiros
+    // READ
     public List<Barbeiro> listarTodos() {
         return new ArrayList<>(barbeiros.values());
     }
 
-    // READ - Buscar barbeiro pelo ID
     public Barbeiro buscarPorId(Long id) {
+        validarId(id);
         return barbeiros.get(id);
     }
 
-    // UPDATE - Atualizar barbeiro
+    // UPDATE
     public void atualizar(Long id, Barbeiro barbeiro) {
-        if (id == null || id <= 0) {
-            throw new IllegalArgumentException("O ID deve ser positivo.");
-        }
-
+        validarId(id);
         validarBarbeiro(barbeiro);
 
         if (!barbeiros.containsKey(id)) {
@@ -60,11 +62,9 @@ public class BarbeiroRepository {
         barbeiros.put(id, barbeiro);
     }
 
-    // DELETE - Excluir barbeiro
+    // DELETE
     public void excluir(Long id) {
-        if (id == null || id <= 0) {
-            throw new IllegalArgumentException("O ID deve ser positivo.");
-        }
+        validarId(id);
 
         if (!barbeiros.containsKey(id)) {
             throw new IllegalArgumentException("Barbeiro não encontrado.");
