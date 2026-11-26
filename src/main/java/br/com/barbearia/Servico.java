@@ -11,20 +11,11 @@ public class Servico {
         if (id == null || id <= 0) {
             throw new IllegalArgumentException("ID deve ser positivo");
         }
-        if (nome == null || nome.trim().isEmpty()) {
-            throw new IllegalArgumentException("Nome não pode ser vazio");
-        }
-        if (descricao == null || descricao.trim().isEmpty()) {
-            throw new IllegalArgumentException("Descrição não pode ser vazia");
-        }
-        if (preco <= 0 || !Double.isFinite(preco)) {
-            throw new IllegalArgumentException("Preço deve ser positivo");
-        }
 
         this.id = id;
-        this.nome = nome;
-        this.descricao = descricao;
-        this.preco = preco;
+        setNome(nome);
+        setDescricao(descricao);
+        setPreco(preco);
     }
 
     public Long getId() {
