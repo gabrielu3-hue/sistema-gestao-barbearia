@@ -13,11 +13,9 @@ public class AtendimentoRepository {
     public void salvar(Atendimento atendimento) {
         validarAtendimento(atendimento);
 
-        if (atendimentos.containsKey(atendimento.getId())) {
+        if (atendimentos.putIfAbsent(atendimento.getId(), atendimento) != null) {
             throw new IllegalArgumentException("Ja existe atendimento com esse ID");
         }
-
-        atendimentos.put(atendimento.getId(), atendimento);
     }
 
     public Optional<Atendimento> buscarPorId(Long id) {
