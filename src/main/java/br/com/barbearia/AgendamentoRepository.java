@@ -11,9 +11,7 @@ public class AgendamentoRepository {
     private final Map<Long, Agendamento> agendamentos = new LinkedHashMap<>();
 
     public void salvar(Agendamento agendamento) {
-        if (agendamento == null) {
-            throw new IllegalArgumentException("Agendamento nao pode ser nulo");
-        }
+        validarAgendamento(agendamento);
 
         if (agendamentos.containsKey(agendamento.getId())) {
             throw new IllegalArgumentException("Ja existe agendamento com esse ID");
@@ -23,10 +21,7 @@ public class AgendamentoRepository {
     }
 
     public Optional<Agendamento> buscarPorId(Long id) {
-        if (id == null) {
-            throw new IllegalArgumentException("ID nao pode ser nulo");
-        }
-
+        validarId(id);
         return Optional.ofNullable(agendamentos.get(id));
     }
 
@@ -35,26 +30,33 @@ public class AgendamentoRepository {
     }
 
     public void atualizar(Agendamento agendamento) {
-        if (agendamento == null) {
-            throw new IllegalArgumentException("Agendamento nao pode ser nulo");
-        }
-
-        if (!agendamentos.containsKey(agendamento.getId())) {
-            throw new IllegalArgumentException("Agendamento nao encontrado");
-        }
+        validarAgendamento(agendamento);
+        validarExistencia(agendamento.getId());
 
         agendamentos.put(agendamento.getId(), agendamento);
     }
 
     public void excluir(Long id) {
+        validarId(id);
+        validarExistencia(id);
+        agendamentos.remove(id);
+    }
+
+    private void validarAgendamento(Agendamento agendamento) {
+        if (agendamento == null) {
+            throw new IllegalArgumentException("Agendamento nao pode ser nulo");
+        }
+    }
+
+    private void validarId(Long id) {
         if (id == null) {
             throw new IllegalArgumentException("ID nao pode ser nulo");
         }
+    }
 
+    private void validarExistencia(Long id) {
         if (!agendamentos.containsKey(id)) {
             throw new IllegalArgumentException("Agendamento nao encontrado");
         }
-
-        agendamentos.remove(id);
     }
 }
