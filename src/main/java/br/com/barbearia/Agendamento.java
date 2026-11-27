@@ -3,6 +3,8 @@ package br.com.barbearia;
 import java.time.LocalDateTime;
 
 public class Agendamento {
+    private static final String ERRO_ID = "ID deve ser positivo";
+    private static final String ERRO_STATUS = "Status nao pode ser vazio";
     private Long id;
     private Cliente cliente;
     private Barbeiro barbeiro;
@@ -26,7 +28,7 @@ public class Agendamento {
 
     public void setId(Long id) {
         if (id == null || id <= 0) {
-            throw new IllegalArgumentException("ID deve ser positivo");
+            throw new IllegalArgumentException(ERRO_ID);
         }
         this.id = id;
     }
@@ -81,7 +83,7 @@ public class Agendamento {
 
     public void setStatus(String status) {
         if (status == null || status.isBlank()) {
-            throw new IllegalArgumentException("Status nao pode ser vazio");
+            throw new IllegalArgumentException(ERRO_STATUS);
         }
         this.status = status;
     }
