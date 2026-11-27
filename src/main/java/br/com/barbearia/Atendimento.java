@@ -52,9 +52,7 @@ public class Atendimento {
         if (dataInicio == null) {
             throw new IllegalArgumentException("A data de início é obrigatória.");
         }
-        if (dataFim != null && !dataFim.isAfter(dataInicio)) {
-            throw new IllegalArgumentException("A data de fim deve ser posterior ao início.");
-        }
+        validarPeriodo(dataInicio, this.dataFim);
         this.dataInicio = dataInicio;
     }
 
@@ -66,9 +64,7 @@ public class Atendimento {
         if (dataFim == null) {
             throw new IllegalArgumentException("A data de fim é obrigatória.");
         }
-        if (dataInicio != null && !dataFim.isAfter(dataInicio)) {
-            throw new IllegalArgumentException("A data de fim deve ser posterior ao início.");
-        }
+        validarPeriodo(this.dataInicio, dataFim);
         this.dataFim = dataFim;
     }
 
@@ -89,5 +85,13 @@ public class Atendimento {
 
     public void setObservacoes(String observacoes) {
         this.observacoes = observacoes;
+    }
+
+    private void validarPeriodo(LocalDateTime inicio, LocalDateTime fim) {
+        if (inicio != null && fim != null && !fim.isAfter(inicio)) {
+            throw new IllegalArgumentException(
+                "A data de fim deve ser posterior ao início."
+            );
+        }
     }
 }
